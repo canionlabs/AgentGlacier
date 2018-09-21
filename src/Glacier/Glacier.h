@@ -1,5 +1,5 @@
-#ifndef YOUR_NAME_INCLUDE
-#define YOUR_NAME_INCLUDE
+#ifndef GLACIER_INCLUDE
+#define GLACIER_INCLUDE
 
 #include "glacier_defines.h"
 #include <IRremoteESP8266.h>
