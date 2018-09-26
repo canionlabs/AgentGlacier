@@ -1,5 +1,4 @@
-#ifndef GLACIER_INCLUDE
-#define GLACIER_INCLUDE
+#pragma once 
 
 #include "glacier_defines.h"
 #include <IRremoteESP8266.h>
@@ -23,8 +22,7 @@ private:
 
 	bool powerStatus;
 
+	void setStatus(bool status);
 	void notifyLed();
 	void sendIR(uint16_t *rawCode);
 };
-
-#endif

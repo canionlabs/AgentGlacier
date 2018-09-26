@@ -8,12 +8,19 @@
 Glacier glacier;
 
 char auth[] = "1b1c946ad73c4d38800d7685651c9491";
-char ssid[] = "d0f2a4";
-char pass[] = "ca31031996";
+char ssid[] = "Venal Ninja Labs";
+char pass[] = "Venal@2016";
+
+// char ssid[] = "d0f2a4";
+// char pass[] = "";
 
 
 BLYNK_WRITE(V0) {
 	glacier.powerOn();
+}
+
+BLYNK_WRITE(V1) {
+	glacier.powerOff();
 }
 
 void setup() {
