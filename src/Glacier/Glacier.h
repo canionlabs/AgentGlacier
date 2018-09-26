@@ -11,7 +11,7 @@ public:
 	Glacier();
 	void begin();
 
-	bool getStatus();
+	bool isOn();
 
 	void powerOn();
 	void powerOff();
@@ -20,9 +20,8 @@ public:
 private:
 	IRsend irsend;
 
-	bool powerStatus;
+	int readLDR();
 
-	void setStatus(bool status);
 	void notifyLed();
 	void sendIR(uint16_t *rawCode);
 };

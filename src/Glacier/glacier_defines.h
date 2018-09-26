@@ -12,9 +12,8 @@
 //
 
 
-
+#define G_INPUT_LDR     A0
 #define G_OUTPUT_IR		 4
 #define G_OUTPUT_LED	13
 
-#define AR_MIDEA           20
-#define AR_CONSUL          21
+#define LDR_BALANCE	   100
