@@ -16,4 +16,4 @@
 #define G_OUTPUT_IR		 4
 #define G_OUTPUT_LED	13
 
-#define LDR_BALANCE	   100
+#define LDR_BALANCE	   1

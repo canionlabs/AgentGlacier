@@ -13,14 +13,14 @@ public:
 
 	bool isOn();
 
+	int readLDR();
+
 	void powerOn();
 	void powerOff();
 	void setTurbo();
 
 private:
 	IRsend irsend;
-
-	int readLDR();
 
 	void notifyLed();
 	void sendIR(uint16_t *rawCode);
