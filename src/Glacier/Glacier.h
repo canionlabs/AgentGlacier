@@ -8,20 +8,20 @@
 
 class Glacier {
 public:
-	Glacier();
-	void begin();
+    Glacier();
+    void begin();
 
-	bool isOn();
+    bool isOn();
 
-	int readLDR();
+    int readLDR();
 
-	void powerOn();
-	void powerOff();
-	void setTurbo();
+    void powerOn();
+    void powerOff();
+    void setTurbo();
 
 private:
-	IRsend irsend;
+    IRsend irsend;
 
-	void notifyLed();
-	void sendIR(uint16_t *rawCode);
+    void notifyLed();
+    void sendIR(uint16_t *rawCode);
 };
