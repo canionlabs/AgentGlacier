@@ -1,73 +1,66 @@
+#include "glacier_defines.h"
 
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
 #include <Arduino.h>
 #include <array>
 
-#include <Glacier/Glacier.h>
+// #include <Sensor/SensorIR.h>
 
 
-WidgetLED virtualLED(V4);
-
-Glacier glacier;
-BlynkTimer timer;
-
-
-// Auth Settings
-char auth[] = "senhadanet2018";
-char ssid[] = "Ed. The Doors - Touch Me";
-char pass[] = "senhadanet2018";
-// char ssid[] = "d0f2a4";
-// char pass[] = "";
-
-int lastStatus[5] = {};
-int indexToSearch = 0;
-
-BLYNK_WRITE(V0) {
-    glacier.powerOn();
+void serialPrint(String message) {
+    #ifdef DEBUG
+    Serial.println(message);
+    #endif // DEBUG
 }
 
-BLYNK_WRITE(V1) {
-    glacier.powerOff();
-}
+void connect()
+{
+    WiFi.mode(WIFI_STA);
+    bool success = false;
 
-void sendStatus() {
-    Blynk.virtualWrite(V9, glacier.readLDR());
-    int iTrue = 0;
-    int iFalse = 0;
+    serialPrint("Connecting...");
 
-    if (indexToSearch == 5) {
-        for (int n=0; n < indexToSearch; n++) {
-            if (lastStatus[n] == 1) {
-                iTrue += 1;
-            } else {
-                iFalse += 1;
+    long start_time = millis();
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        delay(10);
+        if (((millis() - start_time) > MINUTE) && !success)
+        {
+            WiFi.beginSmartConfig();
+            serialPrint("Begin SmartConfig...");
+            while (1)
+            {
+                delay(10);
+                if (WiFi.smartConfigDone())
+                {
+                    serialPrint("SmartConfig: Success");
+                    success = true;
+                    break;
+                }
+                if ((millis() - start_time) > (MINUTE * 2))
+                {
+                    ESP.restart();
+                }
             }
         }
-
-        int maxStatus = max(iTrue, iFalse);
-        if (maxStatus == iTrue) {
-            virtualLED.on();
-        } else {
-            virtualLED.off();
-        }
-
-        indexToSearch = 0;
-
-    } else {
-        lastStatus[indexToSearch] = glacier.isOn();
-        indexToSearch += 1;
     }
+
+    serialPrint("WiFi Connected.");
+    WiFi.printDiag(Serial);
+    serialPrint(WiFi.localIP().toString().c_str());
+    serialPrint(WiFi.gatewayIP().toString().c_str());
+    serialPrint(WiFi.hostname().c_str());
 }
+
 
 void setup() {
     Serial.begin(9600);
-    Blynk.begin(auth, ssid, pass);
-    glacier.begin();
-    timer.setInterval(2000L, sendStatus);
+
+    WiFi.setAutoConnect(true);
+    WiFi.setAutoReconnect(true);
+    connect();
 }
 
 void loop() {
-    Blynk.run();
-    timer.run();
 }
