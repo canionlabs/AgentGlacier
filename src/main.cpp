@@ -1,11 +1,16 @@
 #include "glacier_defines.h"
 
+#include <array>
+
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
 #include <Arduino.h>
-#include <array>
 
-// #include <Sensor/SensorIR.h>
+#include <Sensor/SensorIR.h>
+#include <IR/IRTransmitter.h>
+
+
+glacier::ir::IRTransmitter IR;
 
 
 void serialPrint(String message) {
@@ -60,7 +65,19 @@ void setup() {
     WiFi.setAutoConnect(true);
     WiFi.setAutoReconnect(true);
     connect();
+
+    IR.begin();
+    Serial.println("--------");
+    Serial.println(IR.saz);
+    Serial.println(IR.sf);
+    Serial.println("xxxxxxxxx");
 }
 
 void loop() {
+    IR.powerOn();
+    serialPrint("on");
+    delay(1000 * 10);
+    IR.powerOff();
+    serialPrint("off");
+    delay(1000 * 10);
 }
